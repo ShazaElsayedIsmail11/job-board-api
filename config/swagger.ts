@@ -1,4 +1,13 @@
 import swaggerJsdoc from "swagger-jsdoc";
+import path from "node:path";
+
+const routesTsPath = path
+  .resolve(process.cwd(), "routes", "*.ts")
+  .replace(/\\/g, "/");
+
+const routesJsPath = path
+  .resolve(process.cwd(), "dist", "routes", "*.js")
+  .replace(/\\/g, "/");
 
 const options: swaggerJsdoc.Options = {
   definition: {
@@ -11,8 +20,10 @@ const options: swaggerJsdoc.Options = {
     },
 
     servers: [
-  { url: "/" },
-],
+      {
+        url: "/",
+      },
+    ],
 
     components: {
       securitySchemes: {
@@ -25,8 +36,10 @@ const options: swaggerJsdoc.Options = {
     },
   },
 
-  apis: ["./routes/*.ts",   
-    "./dist/routes/*.js",],
+  apis: [
+    routesTsPath,
+    routesJsPath,
+  ],
 };
 
 const swaggerSpec = swaggerJsdoc(options);
