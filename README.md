@@ -8,23 +8,10 @@ Job seekers can browse jobs, manage their profiles, upload CVs, and apply for jo
 
 ## Live API
 
-Base URL:
-
-```text
-https://job-board-api-ashen.vercel.app
-```
-
-Swagger documentation:
-
-```text
-https://job-board-api-ashen.vercel.app/api-docs
-```
-
-Health check:
-
-```text
-https://job-board-api-ashen.vercel.app/health
-```
+- Base URL: https://job-board-api-ashen.vercel.app
+- Swagger Docs: https://job-board-api-ashen.vercel.app/api-docs
+- OpenAPI JSON: https://job-board-api-ashen.vercel.app/api-docs.json
+- Health Check: https://job-board-api-ashen.vercel.app/health
 
 ## Tech Stack
 
@@ -42,7 +29,7 @@ https://job-board-api-ashen.vercel.app/health
 - Supertest
 - Helmet
 - CORS
-- Express Rate Limit
+- express-rate-limit
 
 ## Features
 
@@ -198,7 +185,7 @@ Run the test suite with:
 npm test
 ```
 
-The project uses Vitest and Supertest for integration testing, with a separate test database.
+The project uses Vitest and Supertest for integration testing with a separate test database.
 
 ## Build
 
@@ -236,8 +223,4 @@ For permanent production storage, the CV upload should be moved to a service suc
 
 Shaza Elsayed Ismail
 
-GitHub:
-
-```text
-https://github.com/ShazaElsayedIsmail11
-```
+GitHub: https://github.com/ShazaElsayedIsmail11
