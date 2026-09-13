@@ -3,8 +3,9 @@ import { Request, Response } from "express";
 import {
   getMyProfileService,
   saveSeekerProfileService,
-  saveEmployerProfileService,
+  saveEmployerProfileService, saveCVService
 } from "../services/profileService.js";
+import AppError from "../utils/AppError.js";
 
 export async function saveSeekerProfile(
   req: Request,
@@ -46,5 +47,24 @@ export async function getMyProfile(
 
   return res.status(200).json({
     data: user,
+  });
+}
+
+export async function uploadSeekerCV(
+  req: Request,
+  res: Response
+) {
+  if (!req.file) {
+    throw new AppError("CV file is required", 400);
+  }
+
+  const profile = await saveCVService(
+    req.user!.id,
+    req.file.path
+  );
+
+  return res.status(200).json({
+    message: "CV uploaded successfully",
+    data: profile,
   });
 }

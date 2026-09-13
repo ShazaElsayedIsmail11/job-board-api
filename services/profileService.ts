@@ -65,3 +65,30 @@ export async function getMyProfileService(userId: number) {
 
   return user;
 }
+
+export async function saveCVService(
+  userId: number,
+  cvUrl: string
+) {
+  const profile = await prisma.seekerProfile.findUnique({
+    where: {
+      userId,
+    },
+  });
+
+  if (!profile) {
+    throw new AppError(
+      "Create your seeker profile first",
+      404
+    );
+  }
+
+  return prisma.seekerProfile.update({
+    where: {
+      userId,
+    },
+    data: {
+      cvUrl,
+    },
+  });
+}

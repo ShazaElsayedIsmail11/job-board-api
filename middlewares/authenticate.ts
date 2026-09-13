@@ -29,7 +29,6 @@ req.user = {
   role: decoded.role,
 };
 
-    console.log(decoded);
 
     next();
   } catch {
