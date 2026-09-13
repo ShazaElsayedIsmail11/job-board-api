@@ -84,7 +84,9 @@ app.use("/api/profiles", profileRoutes);
 app.use("/api/applications", applicationRoutes);
 app.get("/", (req, res) => {
   res.json({
-    message: "Job Board API is running"
+    name: "Job Board API",
+    docs: "/api-docs",
+    health: "/health",
   });
 });
 app.use(errorHandler)
