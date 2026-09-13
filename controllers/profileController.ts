@@ -1,5 +1,5 @@
-import { Request, Response } from "express";
-
+import { Response } from "express";
+import type { AuthRequest } from "../types/AuthRequest.js";
 import {
   getMyProfileService,
   saveSeekerProfileService,
@@ -8,7 +8,7 @@ import {
 import AppError from "../utils/AppError.js";
 
 export async function saveSeekerProfile(
-  req: Request,
+  req: AuthRequest,
   res: Response
 ) {
   const profile = await saveSeekerProfileService(
@@ -23,7 +23,7 @@ export async function saveSeekerProfile(
 }
 
 export async function saveEmployerProfile(
-  req: Request,
+  req: AuthRequest,
   res: Response
 ) {
   const profile = await saveEmployerProfileService(
@@ -38,7 +38,7 @@ export async function saveEmployerProfile(
 }
 
 export async function getMyProfile(
-  req: Request,
+  req: AuthRequest,
   res: Response
 ) {
   const user = await getMyProfileService(
@@ -51,7 +51,7 @@ export async function getMyProfile(
 }
 
 export async function uploadSeekerCV(
-  req: Request,
+  req: AuthRequest,
   res: Response
 ) {
   if (!req.file) {

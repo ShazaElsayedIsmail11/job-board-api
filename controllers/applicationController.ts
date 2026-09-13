@@ -1,9 +1,9 @@
-import { Request, Response } from "express";
+import {  Response } from "express";
 import AppError from "../utils/AppError.js";
 import { applyToJobService, getMyApplicationsService, getJobApplicationsService, updateApplicationStatusService } from "../services/applicationService.js";
-
+import type { AuthRequest } from "../types/AuthRequest.js";
 export async function applyToJob(
-  req: Request,
+  req: AuthRequest,
   res: Response
 ) {
   const jobId = Number(req.params.id);
@@ -23,7 +23,7 @@ export async function applyToJob(
   });
 }
 export async function getMyApplications(
-  req: Request,
+  req: AuthRequest,
   res: Response
 ) {
   const applications = await getMyApplicationsService(
@@ -35,7 +35,7 @@ export async function getMyApplications(
   });
 }
 export async function getJobApplications(
-  req: Request,
+  req: AuthRequest,
   res: Response
 ) {
   const jobId = Number(req.params.id);
@@ -54,7 +54,7 @@ export async function getJobApplications(
   });
 }
 export async function updateApplicationStatus(
-  req: Request,
+  req: AuthRequest,
   res: Response
 ) {
   const applicationId = Number(req.params.id);

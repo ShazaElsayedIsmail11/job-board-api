@@ -1,8 +1,8 @@
-import { Request, Response } from "express";
+import {  Response } from "express";
 import { createJobService, getAllJobsService, getJobByIdService, updateJobService, deleteJobService } from "../services/jobService.js";
 import AppError from "../utils/AppError.js";
-
-export async function createJob(req: Request, res: Response) {
+import type { AuthRequest } from "../types/AuthRequest.js";
+export async function createJob(req: AuthRequest, res: Response) {
   const job = await createJobService(
     req.body,
     req.user!.id
@@ -13,7 +13,7 @@ export async function createJob(req: Request, res: Response) {
     data: job,
   });
 }
-export async function getAllJobs(req: Request, res: Response) {
+export async function getAllJobs(req: AuthRequest, res: Response) {
     const page=Number(req.query.page) || 1;
     const limit=Number(req.query.limit) || 10;
     const search= typeof req.query.search === "string"
@@ -39,7 +39,7 @@ export async function getAllJobs(req: Request, res: Response) {
     pagination: result.pagination
   })
 }
-export async function getJobById(req: Request, res:Response){
+export async function getJobById(req: AuthRequest, res:Response){
 const jobId = Number(req.params.id);
 
   if (Number.isNaN(jobId)) {
@@ -48,7 +48,7 @@ const jobId = Number(req.params.id);
 
   const job = await getJobByIdService(jobId);
 }
-export async function updateJob(req:Request, res:Response){
+export async function updateJob(req:AuthRequest, res:Response){
    const jobId = Number(req.params.id);
 
   if (Number.isNaN(jobId)) {
@@ -61,7 +61,7 @@ const job= await updateJobService(jobId,userId, req.body)
     data: job,
   });
 }
-export async function deleteJob(req: Request, res: Response) {
+export async function deleteJob(req: AuthRequest, res: Response) {
   const jobId = Number(req.params.id);
 
   if (Number.isNaN(jobId)) {

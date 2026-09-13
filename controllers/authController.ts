@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { registeUser,loginUser, getUserById } from "../services/authService.js";
-
+import type { AuthRequest } from "../types/AuthRequest.js";
 export async function register(req: Request,res: Response){
 const user= await registeUser(req.body);
    return res.status(201).json({
@@ -17,7 +17,7 @@ return res.status(200).json({
     data: result,
   });
 }
-export async function getMe(req: Request, res: Response) {
+export async function getMe(req: AuthRequest, res: Response) {
     const user= await getUserById(req.user!.id)
   return res.status(200).json({
     data: user

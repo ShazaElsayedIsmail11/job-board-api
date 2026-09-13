@@ -1,9 +1,11 @@
-import { Request, Response, NextFunction } from "express";
+import {  NextFunction } from "express";
+import { Response } from "express";
+import type { AuthRequest } from "../types/AuthRequest.js";
 import jwt from "jsonwebtoken";
 import AppError from "../utils/AppError.js";
 
 function authenticate(
-  req: Request,
+  req: AuthRequest,
   res: Response,
   next: NextFunction
 ) {
