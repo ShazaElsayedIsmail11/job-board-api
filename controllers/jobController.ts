@@ -47,6 +47,9 @@ const jobId = Number(req.params.id);
   }
 
   const job = await getJobByIdService(jobId);
+   return res.status(200).json({
+    data: job,
+  });
 }
 export async function updateJob(req:AuthRequest, res:Response){
    const jobId = Number(req.params.id);
