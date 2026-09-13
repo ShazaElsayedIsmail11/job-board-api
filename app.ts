@@ -4,7 +4,6 @@ import authRoutes from "./routes/authRoutes.js";
 import jobRoutes from "./routes/jobRoutes.js";
 import profileRoutes from "./routes/profileRoutes.js";
 import applicationRoutes from "./routes/applicationRoutes.js";
-import swaggerUi from "swagger-ui-express";
 import swaggerSpec from "./config/swagger.js";
 import helmet from "helmet";
 import cors from "cors";
@@ -19,11 +18,48 @@ app.use(cors({
 }));
 
 //Swagger
-app.use(
-  "/api-docs",
-  swaggerUi.serve,
-  swaggerUi.setup(swaggerSpec)
-);
+app.get("/api-docs.json", (req, res) => {
+  res.json(swaggerSpec);
+});
+
+app.get("/api-docs", (req, res) => {
+  res.type("html").send(`
+    <!DOCTYPE html>
+    <html lang="en">
+      <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Job Board API Docs</title>
+
+        <link
+          rel="stylesheet"
+          href="https://unpkg.com/swagger-ui-dist@5/swagger-ui.css"
+        />
+      </head>
+
+      <body>
+        <div id="swagger-ui"></div>
+
+        <script src="https://unpkg.com/swagger-ui-dist@5/swagger-ui-bundle.js"></script>
+        <script src="https://unpkg.com/swagger-ui-dist@5/swagger-ui-standalone-preset.js"></script>
+
+        <script>
+          window.onload = () => {
+            window.ui = SwaggerUIBundle({
+              url: "/api-docs.json",
+              dom_id: "#swagger-ui",
+              presets: [
+                SwaggerUIBundle.presets.apis,
+                SwaggerUIStandalonePreset
+              ],
+              layout: "StandaloneLayout"
+            });
+          };
+        </script>
+      </body>
+    </html>
+  `);
+});
 //Helmet
 app.use(helmet());
 

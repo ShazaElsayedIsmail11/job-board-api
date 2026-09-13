@@ -2,7 +2,29 @@
 
 A RESTful Job Board API built with Node.js, Express, TypeScript, PostgreSQL, and Prisma.
 
-The API allows job seekers to create profiles, upload CVs, browse jobs, and apply for them. Employers can create jobs, view applicants, and update application statuses.
+The API supports two roles: **Job Seekers** and **Employers**.
+
+Job seekers can browse jobs, manage their profiles, upload CVs, and apply for jobs. Employers can create and manage job posts, view applicants, and update application statuses.
+
+## Live API
+
+Base URL:
+
+```text
+https://job-board-api-ashen.vercel.app
+```
+
+Swagger documentation:
+
+```text
+https://job-board-api-ashen.vercel.app/api-docs
+```
+
+Health check:
+
+```text
+https://job-board-api-ashen.vercel.app/health
+```
 
 ## Tech Stack
 
@@ -11,9 +33,9 @@ The API allows job seekers to create profiles, upload CVs, browse jobs, and appl
 - TypeScript
 - PostgreSQL
 - Prisma ORM
-- JWT Authentication
+- JWT
 - bcrypt
-- Joi Validation
+- Joi
 - Multer
 - Swagger / OpenAPI
 - Vitest
@@ -28,130 +50,59 @@ The API allows job seekers to create profiles, upload CVs, browse jobs, and appl
 
 - Register as Job Seeker or Employer
 - Login with JWT
-- Get current authenticated user
+- Get the current authenticated user
 - Role-based authorization
 
 ### Job Seekers
 
-- Create or update profile
-- Upload CV as PDF
-- Browse jobs
-- Search and filter jobs
+- Create and update profiles
+- Add bio and skills
+- Upload CVs
+- Browse and search jobs
+- Filter and paginate job results
 - Apply for jobs
 - View submitted applications
 
 ### Employers
 
-- Create jobs
+- Create and update company profiles
+- Create job posts
 - Update and delete owned jobs
-- View applicants
+- View job applicants
 - Accept or reject applications
-- Create or update company profile
 
-### Security
+## API Routes
 
-- Password hashing with bcrypt
-- JWT authentication
-- Role-based authorization
-- Joi request validation
-- Helmet security headers
-- CORS configuration
-- Authentication rate limiting
-
-## API Documentation
-
-Swagger documentation is available at:
-
-```text
-http://localhost:3000/api-docs
-```
-
-## Installation
-
-Clone the repository:
-
-```bash
-git clone https://github.com/ShazaElsayedIsmail11/job-board-api.git
-cd job-board-api
-```
-
-Install dependencies:
-
-```bash
-npm install
-```
-
-Create a `.env` file:
-
-```env
-PORT=3000
-DATABASE_URL=your_database_url
-TEST_DATABASE_URL=your_test_database_url
-JWT_SECRET=your_jwt_secret
-FRONTEND_URL=http://localhost:5173
-```
-
-Generate Prisma Client:
-
-```bash
-npx prisma generate
-```
-
-Apply database migrations:
-
-```bash
-npx prisma migrate deploy
-```
-
-Run the development server:
-
-```bash
-npm run dev
-```
-
-## Testing
-
-Run integration tests:
-
-```bash
-npm test
-```
-
-The project uses Vitest and Supertest to test authentication, jobs, and applications using a separate test database.
-
-## Build
-
-Compile TypeScript:
-
-```bash
-npm run build
-```
-
-Run the production build:
-
-```bash
-npm start
-```
-
-## Main API Routes
+### Auth
 
 ```text
 POST   /api/auth/register
 POST   /api/auth/login
 GET    /api/auth/me
+```
 
+### Jobs
+
+```text
 GET    /api/jobs
 GET    /api/jobs/:id
 POST   /api/jobs
 PATCH  /api/jobs/:id
 DELETE /api/jobs/:id
+```
 
+### Applications
+
+```text
 POST   /api/jobs/:id/apply
 GET    /api/jobs/:id/applications
-
 GET    /api/applications/me
 PATCH  /api/applications/:id/status
+```
 
+### Profiles
+
+```text
 GET    /api/profiles/me
 PUT    /api/profiles/seeker/me
 PUT    /api/profiles/employer/me
@@ -176,8 +127,117 @@ Prisma ORM
 PostgreSQL
 ```
 
-## Notes
+## Search and Pagination
 
-CV files are currently stored on the server filesystem and their paths are stored in the database.
+The jobs endpoint supports search, filtering, and pagination.
 
-For a production-scale application, file storage should be moved to a dedicated cloud storage service such as S3 or Cloudinary.
+Example:
+
+```text
+GET /api/jobs?page=1&limit=10&search=node&employerId=1
+```
+
+## Authentication
+
+Protected routes use JWT authentication.
+
+Send the token in the Authorization header:
+
+```text
+Authorization: Bearer YOUR_TOKEN
+```
+
+## Installation
+
+Clone the repository:
+
+```bash
+git clone https://github.com/ShazaElsayedIsmail11/job-board-api.git
+cd job-board-api
+```
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Create a `.env` file based on `.env.example`:
+
+```env
+PORT=3000
+DATABASE_URL=your_database_url
+TEST_DATABASE_URL=your_test_database_url
+JWT_SECRET=your_jwt_secret
+FRONTEND_URL=http://localhost:5173
+```
+
+Generate Prisma Client:
+
+```bash
+npx prisma generate
+```
+
+Apply migrations:
+
+```bash
+npx prisma migrate deploy
+```
+
+Run the development server:
+
+```bash
+npm run dev
+```
+
+## Testing
+
+Run the test suite with:
+
+```bash
+npm test
+```
+
+The project uses Vitest and Supertest for integration testing, with a separate test database.
+
+## Build
+
+Build the project:
+
+```bash
+npm run build
+```
+
+Run the production build:
+
+```bash
+npm start
+```
+
+## Deployment
+
+The API is deployed on Vercel.
+
+Production environment variables are configured through Vercel and are not stored in the repository.
+
+## CV Upload Note
+
+During local development, uploaded CV files are stored under:
+
+```text
+uploads/cvs/
+```
+
+On Vercel, uploads use the temporary `/tmp` filesystem.
+
+For permanent production storage, the CV upload should be moved to a service such as AWS S3, Cloudinary, or Supabase Storage.
+
+## Author
+
+Shaza Elsayed Ismail
+
+GitHub:
+
+```text
+https://github.com/ShazaElsayedIsmail11
+```
