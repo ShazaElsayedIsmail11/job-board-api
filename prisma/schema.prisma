@@ -11,23 +11,26 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
-enum Role{
+
+enum Role {
   SEEKER
   EMPLOYER
 }
-model User{
-   id        Int      @id @default(autoincrement())
-  name      String
-  email     String   @unique
-  password  String
-  role      Role
-  seekerProfile SeekerProfile?
+
+model User {
+  id              Int              @id @default(autoincrement())
+  name            String
+  email           String           @unique
+  password        String
+  role            Role
+  seekerProfile   SeekerProfile?
   employerProfile EmployerProfile?
-  jobs Job[]
-  applications Application[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  jobs            Job[]
+  applications    Application[]
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
 }
+
 model SeekerProfile {
   id     Int      @id @default(autoincrement())
   bio    String?
@@ -37,6 +40,7 @@ model SeekerProfile {
   userId Int  @unique
   user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
+
 model EmployerProfile {
   id                 Int     @id @default(autoincrement())
   companyName        String
@@ -46,14 +50,15 @@ model EmployerProfile {
   userId Int  @unique
   user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
-model Job{
-  id Int  @id @default(autoincrement())
-title String
-description String
-employerId Int 
-employer User @relation(fields: [employerId], references: [id], onDelete: Cascade)
-applications Application[]
-publishedAt DateTime @default(now())
+
+model Job {
+  id           Int           @id @default(autoincrement())
+  title        String
+  description  String
+  employerId   Int
+  employer     User          @relation(fields: [employerId], references: [id], onDelete: Cascade)
+  applications Application[]
+  publishedAt  DateTime      @default(now())
 }
 
 enum ApplicationStatus {
@@ -61,14 +66,17 @@ enum ApplicationStatus {
   ACCEPTED
   REJECTED
 }
-model Application{
-  id Int @id @default(autoincrement())
-seekerId Int
-seeker User @relation(fields: [seekerId], references: [id], onDelete: Cascade)
-jobId Int 
-job Job @relation(fields: [jobId], references: [id])
-status ApplicationStatus @default(PENDING)
-appliedAt DateTime @default(now())
-@@unique([seekerId, jobId])
+
+model Application {
+  id        Int               @id @default(autoincrement())
+  seekerId  Int
+  seeker    User              @relation(fields: [seekerId], references: [id], onDelete: Cascade)
+  jobId     Int
+  job       Job               @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  status    ApplicationStatus @default(PENDING)
+  appliedAt DateTime          @default(now())
+
+  @@unique([seekerId, jobId])
 }
+
 //npx prisma studio
